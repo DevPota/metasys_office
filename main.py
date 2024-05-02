@@ -7,12 +7,12 @@ import configparser
 
 from typing import final
 
-METASYS_PATH:final = "C:/Program Files (x86)/metasys"
-CONFIG_PATH: final = "C:/Program Files (x86)/metasys/MetasysOfficeConfig.ini"
-URL_ERROR:   final = "설치 프로그램 경로가 잘못 되었습니다\n관리자에게 문의하세요"
-INIT_MSG:    final = "확인을 누르면 자동으로 설치를 시작 합니다"
-COMPLETE_MSG:final = "설치가 완료 되었습니다\n바탕화면에 office_key.txt 시리얼 코드를 사용하세요"
-EXIT_MSG:    final = "이곳을 클릭하고 Ctrl + C를 눌러 강제 종료합니다..."
+CONFIG_PATH:         final = r".\MetasysOfficeConfig.ini"
+
+URL_ERROR:           final = "설치 프로그램 경로가 잘못 되었습니다\n관리자에게 문의하세요"
+INIT_MSG:            final = "확인을 누르면 자동으로 설치를 시작 합니다"
+COMPLETE_MSG:        final = "설치가 완료 되었습니다\n바탕화면에 office_key.txt 시리얼 코드를 사용하세요"
+EXIT_MSG:            final = "이곳을 클릭하고 Ctrl + C를 눌러 강제 종료합니다..."
 
 img_list = list()
 steps    = dict()
@@ -92,18 +92,13 @@ def force_quit(subproc: subprocess.Popen):
 
     pyautogui.alert(COMPLETE_MSG)
     cv2.destroyAllWindows()
-    subproc.kill()
-    pyautogui.hotkey("alt", "f4")
+    subproc.terminate()
     exit()
 
 def main():
-    if os.path.isdir(METASYS_PATH) == False:
-        os.mkdir(METASYS_PATH)
-
     if  os.path.isfile(CONFIG_PATH) == False:
         config["Path"]             = {}
-        config["Path"]["Office"]   = r"C:\Program Files (x86)\metasys\office"
-        config["Path"]["Img"]      = r"C:\Program Files (x86)\metasys\office\img"
+        config["Path"]["Office"]   = r"."
 
         with open(CONFIG_PATH, 'w') as outfile:
             config.write(outfile)
@@ -115,7 +110,7 @@ def main():
             pyautogui.alert(URL_ERROR)
             exit()
     
-    alert_img = cv2.imread(os.path.join(config["Path"]["Img"], "Alert.png"))
+    alert_img = cv2.imread(os.path.join(config["Path"]["Office"], "Alert.png"))
     cv2.imshow("Alert", alert_img)
     cv2.moveWindow("Alert", int(pyautogui.size()[0] / 2) - int(alert_img.shape[1] / 2), 0)
 
