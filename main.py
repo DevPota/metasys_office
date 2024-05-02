@@ -99,6 +99,7 @@ def main():
     if  os.path.isfile(CONFIG_PATH) == False:
         config["Path"]             = {}
         config["Path"]["Office"]   = r"."
+        config["Path"]["Img"]   = r".\img"
 
         with open(CONFIG_PATH, 'w') as outfile:
             config.write(outfile)
@@ -110,7 +111,7 @@ def main():
             pyautogui.alert(URL_ERROR)
             exit()
     
-    alert_img = cv2.imread(os.path.join(config["Path"]["Office"], "Alert.png"))
+    alert_img = cv2.imread(os.path.join(config["Path"]["Img"], "Alert.png"))
     cv2.imshow("Alert", alert_img)
     cv2.moveWindow("Alert", int(pyautogui.size()[0] / 2) - int(alert_img.shape[1] / 2), 0)
 
