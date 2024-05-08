@@ -90,8 +90,15 @@ def force_quit(subproc: subprocess.Popen):
         serial_key_file.write("DV2M3-N4UTE-ECWE8-R3BU7")
         serial_key_file.close()
 
-    pyautogui.alert(COMPLETE_MSG)
+    for i in range(2):
+        pyautogui.press("tab")
+
+    pyautogui.press("enter")
+    time.sleep(1)
+    pyautogui.hotkey("alt", "f4")
+
     cv2.destroyAllWindows()
+    pyautogui.alert(COMPLETE_MSG)
     subproc.terminate()
     exit()
 
